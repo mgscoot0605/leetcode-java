@@ -1,4 +1,3 @@
-.out
-.out/*
-.idea
-.idea/*
+/out
+.idea/
+
