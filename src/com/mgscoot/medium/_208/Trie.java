@@ -28,28 +28,88 @@ package com.mgscoot.medium._208;
  *
  */
 
+import java.util.HashMap;
+import java.lang.Character;
 
 public class Trie {
+
+    class Node {
+        boolean isWord;
+        HashMap<Character, Node> next;
+
+        Node() {
+            isWord = false;
+            next  = new HashMap<Character, Node>();
+        }
+    }
+
+    Node rootNode;
+
     /** Initialize your data structure here. */
     public Trie() {
-
+        rootNode = new Node();
     }
 
     /** Inserts a word into the trie. */
     public void insert(String word) {
-
+        if(word==null || word.length()<1) {
+            return;
+        }
+        char[] chars = word.toCharArray();
+        Node currentNode = rootNode;
+        for(int i=0; i<chars.length; i++) {
+            if(!currentNode.next.containsKey(chars[i])) {
+                currentNode.next.put(chars[i], new Node());
+            }
+            currentNode = currentNode.next.get(chars[i]);
+            if(i==chars.length-1) {
+                currentNode.isWord = true;
+            }
+        }
     }
 
     /** Returns if the word is in the trie. */
     public boolean search(String word) {
+        if(word==null || word.length()<1) {
+            return false;
+        }
+        boolean isExist = false;
+        char[] chars = word.toCharArray();
+        Node currentNode = rootNode;
+        for(int i=0; i<chars.length; i++) {
+            if(!currentNode.next.containsKey(chars[i])) {
+                break;
+            }
+            currentNode = currentNode.next.get(chars[i]);
+            if(i==chars.length-1 && currentNode.isWord) {
+                isExist = true;
+                break;
+            }
+        }
 
-        return false;
+        return isExist;
     }
 
     /** Returns if there is any word in the trie that starts with the given prefix. */
     public boolean startsWith(String prefix) {
+        if(prefix==null || prefix.length()<1) {
+            return false;
+        }
+        boolean isExist = false;
+        char[] chars = prefix.toCharArray();
+        Node currentNode = rootNode;
+        for(int i=0; i<chars.length; i++) {
+            if(!currentNode.next.containsKey(chars[i])) {
+                break;
+            }
+            currentNode = currentNode.next.get(chars[i]);
+            if(i==chars.length-1) {
+                isExist = true;
+                break;
+            }
+        }
 
-        return false;
+        return isExist;
     }
 
 }
